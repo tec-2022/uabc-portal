@@ -1,16 +1,6 @@
 ---
 import AdminLayout from "../layouts/AdminLayout.astro";
-import { supabase } from "@/lib/supabase";
 
-const { data: kpiData, error: kpiErr } = await supabase.rpc('kpi_counts');
-if (kpiErr) console.error(kpiErr);
-const k: any = kpiData ?? {};
-const fmt = (n: any) => (typeof n === 'number' ? n.toLocaleString() : '—');
-
-const { data: profRows } = await supabase.from('site_profile').select('*').limit(1);
-const profile = profRows?.[0] ?? {};
-
-const { data: nav } = await supabase.from('nav_items').select('*').order('position', { ascending: true });
 ---
 <AdminLayout title="Dashboard">
   <!-- KPIs -->
