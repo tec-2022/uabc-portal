@@ -1,0 +1,22 @@
+:root { --uabc-green:#0b6b3a; --uabc-gold:#c9a227; --uabc-dark:#083321; }
+    body { font-family:'Inter',sans-serif; }
+    .bg-primary-600{background-color:var(--uabc-green);} .text-primary-600{color:var(--uabc-green);}
+    .bg-accent-500{background-color:var(--uabc-gold);} .text-accent-500{color:var(--uabc-gold);}
+    .admin-card{background:linear-gradient(135deg,rgba(11,107,58,.05),rgba(201,162,39,.05));border:1px solid rgba(11,107,58,.1);}
+    .admin-card:hover{border-color:rgba(201,162,39,.3);box-shadow:0 10px 25px -10px rgba(201,162,39,.3);}
+    .admin-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:.3s;color:#f8fafc;}
+    .admin-input:focus{border-color:var(--uabc-gold);box-shadow:0 0 0 3px rgba(201,162,39,.1);color:#f8fafc;}
+    .btn-admin{background:linear-gradient(135deg,var(--uabc-green),var(--uabc-dark));transition:.3s;}
+    .btn-admin:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(11,107,58,.3);}
+    .sidebar-admin{background:linear-gradient(180deg,var(--uabc-dark),var(--uabc-green));}
+    .table-admin{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);}
+    .table-admin th{background:rgba(11,107,58,.2);color:var(--uabc-gold);}
+    .tag{background:rgba(201,162,39,.2);color:var(--uabc-gold);border:1px solid rgba(201,162,39,.3);}
+    .toggle-switch{position:relative;width:48px;height:24px;background:rgba(255,255,255,.1);border-radius:24px;cursor:pointer;transition:.3s;}
+    .toggle-switch.active{background:var(--uabc-gold);}
+    .toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:.3s;}
+    .toggle-switch.active::after{transform:translateX(24px);}
+    .admin-header{background:linear-gradient(135deg,var(--uabc-dark),var(--uabc-green));box-shadow:0 4px 20px rgba(0,0,0,.3);}
+    .fade-in{animation:fadeIn .5s ease-in}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .pulse{animation:pulse 2s infinite}@keyframes pulse{0%{opacity:1}50%{opacity:.7}100%{opacity:1}}
+    .chart-bar{height:10rem}

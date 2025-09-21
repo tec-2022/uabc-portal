@@ -1,0 +1,563 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Web Académica – Portal Profesional (UABC)">
+  <!-- BEGIN: injected body from your existing HTML to preserve design -->
+  <!-- Topbar móvil (hamburger) -->
+  <header class="md:hidden sticky top-0 z-40 bg-primary-900 text-white shadow-soft">
+    <div class="flex items-center justify-between px-4 py-3">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-white/10">🎓</span>
+        <span class="font-semibold">Portal Profesional</span>
+      </div>
+      <button id="mobileMenuBtn" class="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 hover:bg-white/20"
+              aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menú">
+        <i data-feather="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Backdrop móvil -->
+  <div id="backdrop" class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition md:hidden"></div>
+
+  <div class="grid grid-cols-1 md:grid-cols-[300px_1fr] min-h-screen">
+    <!-- Sidebar (off-canvas en móvil, sticky en desktop) -->
+    <aside id="sidebar"
+      class="bg-primary-900 text-white p-6 shadow-soft
+             fixed inset-y-0 left-0 w-80 -translate-x-full transition-transform duration-300 z-50
+             md:relative md:translate-x-0 md:sticky md:top-0 md:h-screen md:w-auto overflow-y-auto min-h-0 overscroll-contain"
+      aria-hidden="true">
+      <!-- Botón cerrar móvil -->
+      <button id="closeSidebarBtn" class="md:hidden absolute top-4 right-4 inline-flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 p-2" aria-label="Cerrar menú">
+        <i data-feather="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Contenido -->
+      <div class="flex flex-col items-center gap-6 h-full w-full min-h-0 pb-24 md:pb-6" data-aos="fade-right">
+        <div class="text-center w-full">
+          <img src="https://static.photos/education/240x240/1" alt="Foto de perfil" class="w-32 h-32 rounded-full object-cover ring-4 ring-white/10 mx-auto profile-img mb-4">
+          <h1 class="text-2xl font-bold tracking-tight" data-i18n="name">Dr. Nombre Apellido</h1>
+          <p class="text-accent-300 mt-1" data-i18n="role">Profesor Investigador</p>
+          <p class="text-white/70 text-sm mt-1" data-i18n="university">Universidad Autónoma de Baja California</p>
+        </div>
+
+        <!-- Nav -->
+        <nav class="w-full mt-2 space-y-1 flex-1">
+          <a href="#/home" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="home" class="w-5 h-5 text-accent-400"></i><span data-i18n="home">Inicio</span>
+          </a>
+          <a href="#/eventos" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="calendar" class="w-5 h-5 text-accent-400"></i><span data-i18n="events">Eventos</span>
+          </a>
+          <a href="#/publicaciones" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="book" class="w-5 h-5 text-accent-400"></i><span data-i18n="publications">Publicaciones</span>
+          </a>
+          <a href="#/investigacion" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="search" class="w-5 h-5 text-accent-400"></i><span data-i18n="research">Investigación</span>
+          </a>
+          <a href="#/docencia" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="book-open" class="w-5 h-5 text-accent-400"></i><span data-i18n="teaching">Docencia</span>
+          </a>
+          <a href="#/blog" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="edit" class="w-5 h-5 text-accent-400"></i><span data-i18n="blog">Blog Académico</span>
+          </a>
+          <a href="#/galeria" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="image" class="w-5 h-5 text-accent-400"></i><span data-i18n="gallery">Galería</span>
+          </a>
+          <a href="#/contacto" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="mail" class="w-5 h-5 text-accent-400"></i><span data-i18n="contact">Contacto</span>
+          </a>
+
+          <!-- Botón que abre el popup del podcast -->
+          <button id="openPodcastBtn"
+            class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+            <i data-feather="mic" class="w-5 h-5 text-accent-400"></i>
+            <span data-i18n="podcast">Podcast</span>
+          </button>
+        </nav>
+
+        <div class="mt-auto pt-6 w-full">
+          <!-- Botón CV -->
+          <button id="downloadCvSidebar" type="button" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent-500/90 hover:bg-accent-400 text-slate-900 rounded-lg font-medium transition-all duration-300 mb-3">
+            <i data-feather="download" class="w-4 h-4"></i><span data-i18n="cv">Descargar CV</span>
+          </button>
+
+          <!-- Toggles -->
+          <div class="toggle-grid mb-6">
+            <button id="themeBtn" class="toggle-btn rounded-lg bg-white/10 hover:bg-white/20 text-sm w-full whitespace-nowrap">
+              🌞/🌙 <span id="themeLabel" class="ml-1">Claro</span>
+            </button>
+            <button id="langBtn" class="toggle-btn rounded-lg bg-white/10 hover:bg-white/20 text-sm w-full whitespace-nowrap">
+              <span id="langLabel">ES</span>/<span>EN</span>
+            </button>
+          </div>
+
+          <!-- Redes -->
+          <div class="flex justify-center gap-4">
+            <a href="#" aria-label="Facebook" class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-facebook-f text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Twitter"  class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-twitter text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="LinkedIn" class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-linkedin-in text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="ORCID"   class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-orcid text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="ResearchGate" class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-researchgate text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Publons" class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fas fa-graduation-cap text-white" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Google Scholar" class="social-icon w-10 h-10 rounded-full bg-white/5 hover:bg-accent-500/20 flex items-center justify-center"><i class="fab fa-google text-white" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="h-6 md:h-0"></div>
+    </aside>
+
+    <!-- Main -->
+    <main class="p-6 md:p-10 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
+      <div id="app" class="max-w-5xl mx-auto"></div>
+    </main>
+  </div>
+
+  <!-- Templates -->
+  <template id="home">
+    <section data-aos="fade-up">
+      <header class="flex flex-col md:flex-row items-start gap-8 mb-10">
+        <img src="https://static.photos/education/320x320/1" class="w-40 h-40 sm:w-56 sm:h-56 rounded-full object-cover ring-8 ring-accent-500/20 shadow-lg profile-img mx-auto md:mx-0" alt="Foto de perfil"/>
+        <div class="text-center md:text-left flex-1">
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight" data-i18n="title_name">Dr. Nombre Apellido</h2>
+          <hr class="my-4 border-slate-200 dark:border-slate-700"/>
+          <p class="text-slate-700 dark:text-slate-300 max-w-3xl mx-auto md:mx-0" data-i18n="home_intro1">Profesor – Investigador en la UABC.</p>
+          <p class="text-slate-700 dark:text-slate-300 mt-2 max-w-3xl mx-auto md:mx-0" data-i18n="home_intro2">Especialista en transformación digital y análisis de datos aplicados.</p>
+          <div id="homeContacts" class="mt-4 text-sm"></div>
+        </div>
+      </header>
+
+      <!-- Dos columnas tipo CV -->
+      <section class="mb-10">
+        <div class="grid md:grid-cols-2 gap-6 md:gap-10">
+          <div>
+            <h3 class="text-2xl font-semibold mb-4" data-i18n="positions_title">Posiciones Académicas</h3>
+            <div id="positionsList" class="space-y-3"></div>
+          </div>
+          <div>
+            <h3 class="text-2xl font-semibold mb-4" data-i18n="education_title">Educación</h3>
+            <div id="educationList" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Más secciones (Educación Continua como timeline) -->
+      <section id="moreSections"></section>
+    </section>
+  </template>
+
+  <template id="eventos">
+    <section data-aos="fade-up">
+      <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400 mb-8" data-i18n="events">Eventos Académicos</h2>
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-700 card-hover">
+          <div class="flex items-start gap-4">
+            <div class="bg-primary-100 dark:bg-primary-900 p-3 rounded-lg">
+              <i data-feather="calendar" class="w-6 h-6 text-primary-600"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg mb-1" data-i18n="upcoming_events">Próximos Eventos</h3>
+              <p class="text-slate-600 dark:text-slate-300" data-i18n="upcoming_events_desc">Conferencias, seminarios y talleres programados</p>
+            </div>
+          </div>
+          <div id="upcomingEvents" class="mt-4 space-y-3"></div>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-700 card-hover">
+          <div class="flex items-start gap-4">
+            <div class="bg-primary-100 dark:bg-primary-900 p-3 rounded-lg">
+              <i data-feather="clock" class="w-6 h-6 text-primary-600"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg mb-1" data-i18n="past_events">Eventos Pasados</h3>
+              <p class="text-slate-600 dark:text-slate-300" data-i18n="past_events_desc">Archivo de actividades académicas realizadas</p>
+            </div>
+          </div>
+          <div id="pastEvents" class="mt-4 space-y-3"></div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-100 dark:border-slate-700">
+        <h3 class="text-xl font-semibold mb-4" data-i18n="event_calendar">Calendario de Eventos</h3>
+        <div id="eventCalendar" class="bg-slate-50 dark:bg-slate-900 rounded-lg p-2"></div>
+      </div>
+    </section>
+  </template>
+
+  <template id="publicaciones">
+    <section data-aos="fade-up">
+      <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400">Publicaciones</h2>
+      <p class="mt-2 text-slate-600 dark:text-slate-300 max-w-4xl">
+        Como parte del desarrollo sustantivo de las actividades de un profesor universitario, en esta sección se detallan los
+        productos derivados de proyectos de investigación, convenios de colaboración, estancias nacionales e internacionales,
+        cuerpos académicos y seguimiento de lineamientos del CONAHCYT.
+      </p>
+
+      <!-- Barra de filtros / búsqueda / orden -->
+      <div class="mt-6 grid gap-3 md:grid-cols-[1fr_2fr_auto] items-center">
+        <label class="flex items-center gap-2">
+          <span class="text-sm text-slate-600 dark:text-slate-300">Filtrar por tipo:</span>
+          <select id="pubsType" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900">
+            <option value="all">Todos</option>
+            <option value="journal">Journal paper</option>
+            <option value="conference">Conference paper</option>
+            <option value="book">Book</option>
+          </select>
+        </label>
+
+        <div class="flex items-center">
+          <input id="pubsSearch" type="search" placeholder="Buscar por título, autor o revista…"
+                 class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900" />
+        </div>
+
+        <div class="flex items-center gap-2 justify-end">
+          <span class="text-sm text-slate-600 dark:text-slate-300 hidden md:inline">Ordenar por año:</span>
+          <button id="pubsSort" class="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900"
+                  title="Cambiar orden (desc/asc)">
+            <i data-feather="arrow-down" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Conteo -->
+      <div id="pubsCount" class="mt-3 text-sm text-slate-600 dark:text-slate-300"></div>
+
+      <!-- Lista -->
+      <div id="pubsContainer" class="mt-4 space-y-4"></div>
+    </section>
+  </template>
+
+  <!-- INVESTIGACIÓN -->
+  <template id="investigacion">
+    <section data-aos="fade-up" class="space-y-10">
+      <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400">Investigación</h2>
+
+      <!-- Texto + Intereses -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-200 dark:border-slate-700">
+          <div id="researchAbout" class="space-y-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300"></div>
+        </div>
+        <aside class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-200 dark:border-slate-700">
+          <h3 class="font-semibold mb-3" data-i18n="interests">Intereses</h3>
+          <ul id="researchInterests" class="divide-y divide-slate-200 dark:divide-slate-700 text-sm"></ul>
+          <div class="h-6 md:h-0"></div>
+    </aside>
+      </div>
+
+      <!-- Grupo / Carrusel -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-slate-200 dark:border-slate-700">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-semibold" id="groupTitle">Synkrotima Research Group</h3>
+          <div class="flex gap-2">
+            <button id="memberPrev" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center" aria-label="Anterior">
+              <i data-feather="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button id="memberNext" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center justify-center" aria-label="Siguiente">
+              <i data-feather="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <p id="groupIntro" class="text-slate-600 dark:text-slate-300 mb-4"></p>
+
+        <div id="memberCarousel" class="relative overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+          <div id="memberTrack" class="whitespace-nowrap transition-transform duration-300 ease-out"></div>
+        </div>
+      </div>
+
+      <!-- Proyectos -->
+      <div>
+        <h3 class="text-2xl font-semibold text-center mb-6" data-i18n="research_projects">Research Projects</h3>
+        <div id="projectsGrid" class="grid sm:grid-cols-2 gap-6"></div>
+      </div>
+    </section>
+  </template>
+
+  <template id="docencia">
+    <section data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-semibold text-center text-slate-800 dark:text-slate-100" data-i18n="teaching">Docencia</h2>
+
+      <p class="max-w-3xl mx-auto text-center text-slate-600 dark:text-slate-300 mt-3" data-i18n="teaching_intro">
+        Una de las actividades preponderantes…
+      </p>
+
+      <div class="max-w-3xl mx-auto mt-4">
+        <ul class="list-disc list-inside text-slate-600 dark:text-slate-300">
+          <li data-i18n="teaching_area_it">Tecnologías de Información</li>
+          <li data-i18n="teaching_area_mgmt">Gestión</li>
+          <li data-i18n="teaching_area_methods">Métodos de Investigación</li>
+        </ul>
+      </div>
+
+      <h3 class="mt-10 mb-6 text-2xl md:text-3xl font-semibold text-center text-slate-700 dark:text-slate-200" data-i18n="undergrad_courses">
+        Cursos de Licenciatura o Pregrado
+      </h3>
+      <div id="ugList" class="mt-6 space-y-4"></div>
+
+      <div class="my-10 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center">
+          <i data-feather="chevron-down" class="w-5 h-5"></i>
+        </div>
+      </div>
+
+      <h3 class="mt-2 mb-6 text-2xl md:text-3xl font-semibold text-center text-slate-700 dark:text-slate-200" data-i18n="grad_courses">
+        Cursos de Posgrado
+      </h3>
+      <div id="gradList" class="mt-6 space-y-4"></div>
+    </section>
+  </template>
+
+  <template id="blog">
+    <section data-aos="fade-up">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400" data-i18n="blog">Blog Académico</h2>
+        <!-- Botón para ocultar/mostrar la lista lateral -->
+        <button id="toggleListBtn" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg flex items-center gap-2">
+          <i data-feather="list" class="w-4 h-4"></i><span id="toggleListText">Ocultar lista</span>
+        </button>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Última publicación (grande) -->
+        <div id="latestPost" class="md:col-span-2"></div>
+        <!-- Lista de entradas (ocultable) -->
+        <aside id="postsList" class="space-y-4">  <div class="h-6 md:h-0"></div>
+    </aside>
+      </div>
+    </section>
+  </template>
+
+  <!-- GALERÍA (reemplazo completo) -->
+  <template id="galeria">
+    <section data-aos="fade-up">
+      <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400 mb-8" data-i18n="gallery">Galería Académica</h2>
+
+      <div id="uabcGallery" class="uabc-gallery-grid" data-aos="fade-up" data-aos-delay="100"></div>
+
+      <!-- Lightbox -->
+      <div id="uabcLb" class="uabc-lightbox" aria-hidden="true">
+        <div class="uabc-lb-back" data-close></div>
+        <div class="uabc-lb-dialog" role="dialog" aria-modal="true" aria-labelledby="uabcLbTitle">
+          <div class="uabc-lb-head">
+            <h3 id="uabcLbTitle" class="text-lg font-semibold m-0">Álbum</h3>
+            <div class="flex gap-2">
+              <button id="uabcLbDl" class="uabc-icon" title="Abrir imagen en pestaña">⬇︎</button>
+              <button id="uabcLbClose" class="uabc-icon" title="Cerrar">✕</button>
+            </div>
+          </div>
+          <div class="uabc-view">
+            <div id="uabcLbSpin" class="uabc-spinner" style="display:none"></div>
+            <img id="uabcLbImg" alt="">
+            <button class="uabc-nav prev" id="uabcLbPrev" aria-label="Anterior">‹</button>
+            <button class="uabc-nav next" id="uabcLbNext" aria-label="Siguiente">›</button>
+            <div id="uabcLbProg" class="uabc-progress">1/1</div>
+          </div>
+          <div id="uabcLbThumbs" class="uabc-thumbs"></div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="contacto">
+    <section data-aos="fade-up">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-10">
+        <!-- Columna izquierda: info -->
+        <div>
+          <h2 class="text-3xl font-bold text-primary-800 dark:text-accent-400 mb-6" data-i18n="contact">Contacto</h2>
+          <p class="text-slate-600 dark:text-slate-300 mb-8" data-i18n="contact_intro">
+            Puedes contactarme para colaboraciones académicas, asesorías o cualquier consulta profesional.
+          </p>
+          <div id="contactCards" class="space-y-4"></div>
+        </div>
+
+        <!-- Columna derecha: formulario -->
+        <div>
+          <form class="space-y-4 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+            <div>
+              <label class="block text-sm font-medium mb-1" data-i18n="full_name">Nombre Completo</label>
+              <input type="text" class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent dark:bg-slate-900" placeholder="Tu nombre" aria-label="Nombre Completo">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" data-i18n="email">Correo Electrónico</label>
+              <input type="email" class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent dark:bg-slate-900" placeholder="tu@email.com" aria-label="Correo Electrónico">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" data-i18n="subject">Asunto</label>
+              <select class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent dark:bg-slate-900" aria-label="Asunto">
+                <option value="">Selecciona un asunto</option>
+                <option value="collaboration">Colaboración Académica</option>
+                <option value="advising">Asesoría de Tesis</option>
+                <option value="class">Consulta sobre Clases</option>
+                <option value="other">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" data-i18n="message">Mensaje</label>
+              <textarea rows="4" class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent dark:bg-slate-900" placeholder="Escribe tu mensaje aquí" aria-label="Mensaje"></textarea>
+            </div>
+            <button type="submit" class="w-full px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition duration-300 flex items-center justify-center gap-2">
+              <i data-feather="send" class="w-4 h-4"></i><span data-i18n="send">Enviar Mensaje</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- FILA COMPLETA: mapa -->
+        <div class="md:col-span-2">
+          <div class="mt-2 md:mt-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+            <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+              <h3 class="font-semibold text-lg flex items-center gap-2">
+                <i data-feather="map-pin" class="w-5 h-5 text-primary-600"></i>
+                <span data-i18n="location">Ubicación de la Oficina</span>
+              </h3>
+            </div>
+            <div class="h-96 w-full">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3364.377389717566!2d-115.4538237243352!3d32.53630307377563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d7713d2d1b2b9f%3A0x8d1e3e3e3e3e3e3e!2sUniversidad%20Aut%C3%B3noma%20de%20Baja%20California!5e0!3m2!1ses!2smx!4v1712345678901!5m2!1ses!2smx" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" class="dark:grayscale dark:opacity-90" title="Ubicación UABC">
+              </iframe>
+            </div>
+            <div class="p-4 text-sm text-slate-600 dark:text-slate-300">
+              <p>Edificio de Posgrado, 3er piso, Oficina 302<br>Universidad Autónoma de Baja California</p>
+            </div>
+          </div>
+        </div>
+        <!-- /mapa -->
+      </div>
+    </section>
+  </template>
+
+  <template id="notfound">
+    <section class="min-h-[60vh] flex flex-col items-center justify-center text-center" data-aos="fade-up">
+      <div class="bg-primary-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+        <i data-feather="alert-circle" class="w-10 h-10 text-primary-600"></i>
+      </div>
+      <h2 class="text-4xl font-bold text-primary-800 dark:text-accent-400 mb-4">404 - Página no encontrada</h2>
+      <p class="text-slate-600 dark:text-slate-300 max-w-md mb-6">La sección que buscas no existe o ha sido movida. Por favor, utiliza el menú para navegar al contenido deseado.</p>
+      <a href="#/home" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition inline-flex items-center gap-2">
+        <i data-feather="home" class="w-4 h-4"></i><span data-i18n="back_home">Volver al Inicio</span>
+      </a>
+    </section>
+  </template>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+
+  <!-- 🔊 Popup Podcast -->
+  <div id="podcastModal" class="fixed inset-0 z-[60] hidden" aria-hidden="true">
+    <!-- Backdrop -->
+    <div id="podcastBackdrop" class="absolute inset-0 bg-black/60"></div>
+
+    <!-- Caja del modal -->
+    <div class="relative mx-auto my-10 w-[94%] max-w-[900px]">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+        role="dialog" aria-modal="true" aria-labelledby="podcastTitle">
+
+        <header class="flex items-center justify-between gap-4 px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+          <div class="flex items-center gap-2">
+            <i data-feather="mic" class="w-5 h-5 text-primary-600"></i>
+            <h3 id="podcastTitle" class="text-lg font-semibold" data-i18n="podcast">Podcast</h3>
+          </div>
+          <button id="closePodcastBtn"
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  aria-label="Cerrar">
+            <i data-feather="x" class="w-5 h-5"></i>
+          </button>
+        </header>
+
+        <div class="p-6 space-y-6">
+          <!-- Destacado -->
+          <section>
+            <h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2" data-i18n="recent_episodes">Episodios recientes</h4>
+            <div id="podcastFeaturedModal"></div>
+          </section>
+
+          <!-- Lista -->
+          <section class="space-y-3">
+            <div id="podcastListModal" class="grid sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1"></div>
+          </section>
+
+          <!-- Enlaces al show -->
+          <section class="pt-2">
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+              <a id="podcastSpotify" href="#" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <i class="fa-brands fa-spotify" aria-hidden="true"></i><span>Spotify</span>
+              </a>
+              <a id="podcastApple" href="#" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <i class="fa-brands fa-apple" aria-hidden="true"></i><span>Apple Podcasts</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>window.CMS_CV_URL="/assets/cv/cv.pdf";</script>
+  <script src="/assets/js/portal.js" defer></script>
+  <!-- END -->
+
+  <!-- SUPABASE CMS INJECT -->
+  <script is:inline>
+    (async () => {
+      const { supabase } = await import('/src/lib/supabase.ts');
+      const lang = localStorage.getItem('lang') || 'es';
+
+      // Perfil
+      try {
+        const { data: profRows } = await supabase.from('site_profile').select('*').limit(1);
+        const profile = (profRows && profRows[0]) || {};
+        // Fotos
+        if (profile.avatar_url) {
+          document.querySelectorAll('img.profile-img').forEach(img => { (img as HTMLImageElement).src = profile.avatar_url; });
+        }
+        if (profile.sidebar_avatar_url) {
+          const side = document.querySelector('aside img');
+          if (side) (side as HTMLImageElement).src = profile.sidebar_avatar_url;
+        }
+        // Textos
+        const pick = (es, en) => (lang === 'es' ? es : en) || '';
+        const setText = (sel, esKey, enKey) => {
+          const el = document.querySelector(sel); if (!el) return;
+          const val = pick(profile[esKey], profile[enKey]); if (val) el.textContent = val;
+        };
+        setText('[data-i18n="title_name"]', 'name_es','name_en');
+        setText('[data-i18n="name"]', 'name_es','name_en');
+        setText('[data-i18n="role"]', 'role_es','role_en');
+        setText('[data-i18n="university"]', 'university_es','university_en');
+      } catch (e) { console.warn('site_profile read error', e); }
+
+      // Menú
+      try {
+        const { data: nav } = await supabase.from('nav_items').select('*').eq('visible', true).order('position', { ascending: true });
+        if (Array.isArray(nav) && nav.length) {
+          const navRoot = document.querySelector('aside nav');
+          if (navRoot) {
+            navRoot.innerHTML = nav.map(i => `
+              <a href="${i.href}" class="menu-link flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-all duration-300">
+                <i data-feather="${i.icon}" class="w-5 h-5 text-accent-400"></i>
+                <span>${(localStorage.getItem('lang')||'es')==='es' ? i.label_es : i.label_en}</span>
+              </a>
+            `).join('');
+            // rewire menu links
+            document.querySelectorAll('.menu-link').forEach(a => {
+              a.addEventListener('click', (ev) => {
+                ev.preventDefault();
+                const href = (a as HTMLAnchorElement).getAttribute('href')!;
+                if (window.location.hash !== href) window.location.hash = href; else window.dispatchEvent(new HashChangeEvent('hashchange'));
+                const isMobile = window.matchMedia('(max-width: 767px)').matches;
+                if (isMobile) document.getElementById('closeSidebarBtn')?.click();
+              });
+            });
+            if (window['feather']) window['feather'].replace();
+          }
+        }
+      } catch (e) { console.warn('nav_items read error', e); }
+    })();
+  </script>
+
+</BaseLayout>

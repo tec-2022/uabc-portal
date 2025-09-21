@@ -1,0 +1,35 @@
+---
+const { title = 'Portal Profesional UABC' } = Astro.props;
+---
+
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }}</title>
+
+    <!-- Tailwind build -->
+    <link rel="stylesheet" href="/styles.css" />
+    <!-- Your extracted CSS -->
+    <link rel="stylesheet" href="/assets/css/portal.css" />
+
+    <!-- Vendor CDNs from your original HTML -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales-all.global.min.js"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 font-sans dark:bg-slate-900 dark:text-slate-100">
+    <slot />
+
+    <!-- Expose CMS_CV_URL for current download button -->
+    <script>window.CMS_CV_URL="/assets/cv/cv.pdf";</script>
+
+    <!-- Your extracted JS (keeps all current behavior) -->
+    <script src="/assets/js/portal.js" defer></script>
+  </body>
+</html>

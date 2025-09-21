@@ -1,0 +1,186 @@
+---
+import AdminLayout from "../layouts/AdminLayout.astro";
+import { supabase } from "@/lib/supabase";
+
+const { data: kpiData, error: kpiErr } = await supabase.rpc('kpi_counts');
+if (kpiErr) console.error(kpiErr);
+const k: any = kpiData ?? {};
+const fmt = (n: any) => (typeof n === 'number' ? n.toLocaleString() : '—');
+
+const { data: profRows } = await supabase.from('site_profile').select('*').limit(1);
+const profile = profRows?.[0] ?? {};
+
+const { data: nav } = await supabase.from('nav_items').select('*').order('position', { ascending: true });
+---
+<AdminLayout title="Dashboard">
+  <!-- KPIs -->
+  <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Publicaciones</h3>
+      <div class="text-3xl font-bold">{fmt(k.publications)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Eventos (próximos)</h3>
+      <div class="text-3xl font-bold">{fmt(k.events_upcoming)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Eventos (pasados)</h3>
+      <div class="text-3xl font-bold">{fmt(k.events_past)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Posts publicados</h3>
+      <div class="text-3xl font-bold">{fmt(k.blog_published)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Álbumes</h3>
+      <div class="text-3xl font-bold">{fmt(k.albums)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Fotos</h3>
+      <div class="text-3xl font-bold">{fmt(k.photos)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Proyectos activos</h3>
+      <div class="text-3xl font-bold">{fmt(k.projects_active)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Miembros</h3>
+      <div class="text-3xl font-bold">{fmt(k.members)}</div>
+    </div>
+    <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="text-sm text-slate-500">Cursos activos</h3>
+      <div class="text-3xl font-bold">{fmt(k.courses_active)}</div>
+    </div>
+  </section>
+
+  <!-- Perfil del sitio (textos + fotos) -->
+  <section class="grid md:grid-cols-2 gap-6 mb-12">
+    <div class="p-5 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="font-semibold mb-3">Textos del Home</h3>
+      <form id="siteProfileForm" class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <label class="text-sm">Nombre (ES)
+            <input name="name_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.name_es ?? ''} />
+          </label>
+          <label class="text-sm">Nombre (EN)
+            <input name="name_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.name_en ?? ''} />
+          </label>
+          <label class="text-sm">Rol (ES)
+            <input name="role_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.role_es ?? ''} />
+          </label>
+          <label class="text-sm">Rol (EN)
+            <input name="role_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.role_en ?? ''} />
+          </label>
+          <label class="text-sm">Universidad (ES)
+            <input name="university_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.university_es ?? ''} />
+          </label>
+          <label class="text-sm">Universidad (EN)
+            <input name="university_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.university_en ?? ''} />
+          </label>
+        </div>
+        <button type="submit" class="px-4 py-2 rounded-lg bg-primary-600 text-white">Guardar</button>
+      </form>
+    </div>
+
+    <div class="p-5 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+      <h3 class="font-semibold mb-3">Fotos (Home / Sidebar)</h3>
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm mb-2">Foto Home (avatar)</p>
+          <img src={profile.avatar_url ?? ''} class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar home" />
+          <input type="file" id="uploadAvatar" accept="image/*" />
+        </div>
+        <div>
+          <p class="text-sm mb-2">Foto Sidebar</p>
+          <img src={profile.sidebar_avatar_url ?? ''} class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar sidebar" />
+          <input type="file" id="uploadSidebar" accept="image/*" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menú -->
+  <section class="p-5 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
+    <h3 class="font-semibold mb-3">Ítems del menú</h3>
+    <div id="navList" class="space-y-3">
+      {nav?.map(item => (
+        <div class="grid md:grid-cols-6 gap-2 items-center border-b pb-2">
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.position} data-id={item.id} data-k="position" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.label_es} data-id={item.id} data-k="label_es" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.label_en} data-id={item.id} data-k="label_en" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.href}     data-id={item.id} data-k="href" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.icon}     data-id={item.id} data-k="icon" />
+          <label class="text-sm inline-flex items-center gap-2">
+            <input type="checkbox" checked={item.visible} data-id={item.id} data-k="visible" />
+            Visible
+          </label>
+        </div>
+      ))}
+    </div>
+    <div class="mt-4 flex gap-2">
+      <button id="saveNav" class="px-4 py-2 rounded-lg bg-primary-600 text-white">Guardar cambios</button>
+      <button id="addNav"  class="px-4 py-2 rounded-lg border">Agregar ítem</button>
+    </div>
+  </section>
+
+  <script is:inline>
+    import('/src/lib/supabase.ts').then(async ({ supabase }) => {
+      // Guardar textos perfil
+      const form = document.getElementById('siteProfileForm');
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form as HTMLFormElement);
+        const payload = Object.fromEntries(fd.entries());
+        const { data } = await supabase.from('site_profile').select('id').limit(1).single();
+        const id = data?.id;
+        const { error } = await supabase.from('site_profile').update(payload).eq('id', id);
+        if (error) return alert('Error guardando: ' + error.message);
+        alert('Guardado ✅');
+        location.reload();
+      });
+
+      // Subir imágenes (bucket 'site')
+      async function uploadAndSave(file: File, column: string) {
+        if (!file) return;
+        const ext = file.name.split('.').pop();
+        const path = `site/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error: upErr } = await supabase.storage.from('site').upload(path, file, { upsert: false });
+        if (upErr) return alert('Error subiendo: ' + upErr.message);
+        const { data: pub } = supabase.storage.from('site').getPublicUrl(path);
+        const { data } = await supabase.from('site_profile').select('id').limit(1).single();
+        const id = data?.id;
+        const { error: up } = await supabase.from('site_profile').update({ [column]: pub.publicUrl }).eq('id', id);
+        if (up) return alert('Error guardando URL: ' + up.message);
+        alert('Imagen actualizada ✅');
+        location.reload();
+      }
+      (document.getElementById('uploadAvatar') as HTMLInputElement)?.addEventListener('change', (e: any) => uploadAndSave(e.target.files[0], 'avatar_url'));
+      (document.getElementById('uploadSidebar') as HTMLInputElement)?.addEventListener('change', (e: any) => uploadAndSave(e.target.files[0], 'sidebar_avatar_url'));
+
+      // Guardar menú
+      document.getElementById('saveNav')?.addEventListener('click', async () => {
+        const groups: Record<string, any> = {};
+        document.querySelectorAll('#navList [data-id]').forEach((el: any) => {
+          const id = el.getAttribute('data-id');
+          const k  = el.getAttribute('data-k');
+          let v = (el.type === 'checkbox') ? el.checked : el.value;
+          (groups[id] ??= { id }); groups[id][k] = k === 'position' ? Number(v) : v;
+        });
+        const updates = Object.values(groups);
+        const { error } = await supabase.from('nav_items').upsert(updates as any, { onConflict: 'id' });
+        if (error) return alert('Error guardando menú: ' + error.message);
+        alert('Menú guardado ✅');
+        location.reload();
+      });
+
+      // Agregar ítem
+      document.getElementById('addNav')?.addEventListener('click', async () => {
+        const { error } = await supabase.from('nav_items').insert({
+          position: 99, key: 'nuevo', label_es: 'Nuevo', label_en: 'New', href: '#/home', icon: 'star', visible: true
+        } as any);
+        if (error) return alert('Error creando: ' + error.message);
+        location.reload();
+      });
+    });
+  </script>
+</AdminLayout>
