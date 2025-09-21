@@ -1,45 +1,45 @@
 ---
 import AdminLayout from "../layouts/AdminLayout.astro";
-
 ---
+
 <AdminLayout title="Dashboard">
-  <!-- KPIs -->
+  <!-- KPIs (placeholders; se llenan en client:load) -->
   <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Publicaciones</h3>
-      <div class="text-3xl font-bold">{fmt(k.publications)}</div>
+      <div class="text-3xl font-bold" data-kpi="publications">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Eventos (próximos)</h3>
-      <div class="text-3xl font-bold">{fmt(k.events_upcoming)}</div>
+      <div class="text-3xl font-bold" data-kpi="events_upcoming">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Eventos (pasados)</h3>
-      <div class="text-3xl font-bold">{fmt(k.events_past)}</div>
+      <div class="text-3xl font-bold" data-kpi="events_past">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Posts publicados</h3>
-      <div class="text-3xl font-bold">{fmt(k.blog_published)}</div>
+      <div class="text-3xl font-bold" data-kpi="blog_published">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Álbumes</h3>
-      <div class="text-3xl font-bold">{fmt(k.albums)}</div>
+      <div class="text-3xl font-bold" data-kpi="albums">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Fotos</h3>
-      <div class="text-3xl font-bold">{fmt(k.photos)}</div>
+      <div class="text-3xl font-bold" data-kpi="photos">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Proyectos activos</h3>
-      <div class="text-3xl font-bold">{fmt(k.projects_active)}</div>
+      <div class="text-3xl font-bold" data-kpi="projects_active">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Miembros</h3>
-      <div class="text-3xl font-bold">{fmt(k.members)}</div>
+      <div class="text-3xl font-bold" data-kpi="members">—</div>
     </div>
     <div class="p-4 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
       <h3 class="text-sm text-slate-500">Cursos activos</h3>
-      <div class="text-3xl font-bold">{fmt(k.courses_active)}</div>
+      <div class="text-3xl font-bold" data-kpi="courses_active">—</div>
     </div>
   </section>
 
@@ -50,22 +50,22 @@ import AdminLayout from "../layouts/AdminLayout.astro";
       <form id="siteProfileForm" class="space-y-3">
         <div class="grid grid-cols-2 gap-3">
           <label class="text-sm">Nombre (ES)
-            <input name="name_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.name_es ?? ''} />
+            <input name="name_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
           <label class="text-sm">Nombre (EN)
-            <input name="name_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.name_en ?? ''} />
+            <input name="name_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
           <label class="text-sm">Rol (ES)
-            <input name="role_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.role_es ?? ''} />
+            <input name="role_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
           <label class="text-sm">Rol (EN)
-            <input name="role_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.role_en ?? ''} />
+            <input name="role_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
           <label class="text-sm">Universidad (ES)
-            <input name="university_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.university_es ?? ''} />
+            <input name="university_es" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
           <label class="text-sm">Universidad (EN)
-            <input name="university_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" value={profile.university_en ?? ''} />
+            <input name="university_en" class="w-full px-3 py-2 rounded border dark:bg-slate-900" />
           </label>
         </div>
         <button type="submit" class="px-4 py-2 rounded-lg bg-primary-600 text-white">Guardar</button>
@@ -77,12 +77,12 @@ import AdminLayout from "../layouts/AdminLayout.astro";
       <div class="space-y-4">
         <div>
           <p class="text-sm mb-2">Foto Home (avatar)</p>
-          <img src={profile.avatar_url ?? ''} class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar home" />
+          <img id="avatarHome" class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar home" />
           <input type="file" id="uploadAvatar" accept="image/*" />
         </div>
         <div>
           <p class="text-sm mb-2">Foto Sidebar</p>
-          <img src={profile.sidebar_avatar_url ?? ''} class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar sidebar" />
+          <img id="avatarSidebar" class="w-24 h-24 rounded-full object-cover border mb-2" alt="Avatar sidebar" />
           <input type="file" id="uploadSidebar" accept="image/*" />
         </div>
       </div>
@@ -92,85 +92,132 @@ import AdminLayout from "../layouts/AdminLayout.astro";
   <!-- Menú -->
   <section class="p-5 rounded-xl border bg-white dark:bg-slate-800 dark:border-slate-700">
     <h3 class="font-semibold mb-3">Ítems del menú</h3>
-    <div id="navList" class="space-y-3">
-      {nav?.map(item => (
-        <div class="grid md:grid-cols-6 gap-2 items-center border-b pb-2">
-          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.position} data-id={item.id} data-k="position" />
-          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.label_es} data-id={item.id} data-k="label_es" />
-          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.label_en} data-id={item.id} data-k="label_en" />
-          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.href}     data-id={item.id} data-k="href" />
-          <input class="px-2 py-1 rounded border dark:bg-slate-900" value={item.icon}     data-id={item.id} data-k="icon" />
-          <label class="text-sm inline-flex items-center gap-2">
-            <input type="checkbox" checked={item.visible} data-id={item.id} data-k="visible" />
-            Visible
-          </label>
-        </div>
-      ))}
-    </div>
+    <div id="navList" class="space-y-3"></div>
     <div class="mt-4 flex gap-2">
       <button id="saveNav" class="px-4 py-2 rounded-lg bg-primary-600 text-white">Guardar cambios</button>
       <button id="addNav"  class="px-4 py-2 rounded-lg border">Agregar ítem</button>
     </div>
   </section>
 
-  <script is:inline>
-    import('/src/lib/supabase.ts').then(async ({ supabase }) => {
-      // Guardar textos perfil
-      const form = document.getElementById('siteProfileForm');
-      form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fd = new FormData(form as HTMLFormElement);
-        const payload = Object.fromEntries(fd.entries());
-        const { data } = await supabase.from('site_profile').select('id').limit(1).single();
-        const id = data?.id;
-        const { error } = await supabase.from('site_profile').update(payload).eq('id', id);
-        if (error) return alert('Error guardando: ' + error.message);
-        alert('Guardado ✅');
-        location.reload();
-      });
+  <!-- CLIENTE: todo Supabase y lógica del dashboard va aquí -->
+  <script type="module" client:load>
+    import { getSupabaseClient } from '@/lib/supabase'
+    const supabase = getSupabaseClient()
+    const fmt = (n) => (typeof n === 'number' ? n.toLocaleString() : '—')
 
-      // Subir imágenes (bucket 'site')
-      async function uploadAndSave(file: File, column: string) {
-        if (!file) return;
-        const ext = file.name.split('.').pop();
-        const path = `site/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-        const { error: upErr } = await supabase.storage.from('site').upload(path, file, { upsert: false });
-        if (upErr) return alert('Error subiendo: ' + upErr.message);
-        const { data: pub } = supabase.storage.from('site').getPublicUrl(path);
-        const { data } = await supabase.from('site_profile').select('id').limit(1).single();
-        const id = data?.id;
-        const { error: up } = await supabase.from('site_profile').update({ [column]: pub.publicUrl }).eq('id', id);
-        if (up) return alert('Error guardando URL: ' + up.message);
-        alert('Imagen actualizada ✅');
-        location.reload();
+    // KPIs desde RPC
+    try {
+      const { data } = await supabase.rpc('kpi_counts')
+      const k = data || {}
+      const set = (key, val) => {
+        const el = document.querySelector(`[data-kpi="\${key}"]`)
+        if (el) el.textContent = fmt(val)
       }
-      (document.getElementById('uploadAvatar') as HTMLInputElement)?.addEventListener('change', (e: any) => uploadAndSave(e.target.files[0], 'avatar_url'));
-      (document.getElementById('uploadSidebar') as HTMLInputElement)?.addEventListener('change', (e: any) => uploadAndSave(e.target.files[0], 'sidebar_avatar_url'));
+      set('publications',    k.publications)
+      set('events_upcoming', k.events_upcoming)
+      set('events_past',     k.events_past)
+      set('blog_published',  k.blog_published)
+      set('albums',          k.albums)
+      set('photos',          k.photos)
+      set('projects_active', k.projects_active)
+      set('members',         k.members)
+      set('courses_active',  k.courses_active)
+    } catch (e) { console.error('kpi_counts', e) }
 
-      // Guardar menú
-      document.getElementById('saveNav')?.addEventListener('click', async () => {
-        const groups: Record<string, any> = {};
-        document.querySelectorAll('#navList [data-id]').forEach((el: any) => {
-          const id = el.getAttribute('data-id');
-          const k  = el.getAttribute('data-k');
-          let v = (el.type === 'checkbox') ? el.checked : el.value;
-          (groups[id] ??= { id }); groups[id][k] = k === 'position' ? Number(v) : v;
-        });
-        const updates = Object.values(groups);
-        const { error } = await supabase.from('nav_items').upsert(updates as any, { onConflict: 'id' });
-        if (error) return alert('Error guardando menú: ' + error.message);
-        alert('Menú guardado ✅');
-        location.reload();
-      });
+    // Perfil del sitio: leer y rellenar inputs + imágenes
+    try {
+      const { data } = await supabase.from('site_profile').select('*').limit(1)
+      const profile = data?.[0] || {}
+      const setVal = (name, v) => {
+        const el = document.querySelector(\`input[name="\${name}"]\`)
+        if (el) el.value = v ?? ''
+      }
+      setVal('name_es', profile.name_es)
+      setVal('name_en', profile.name_en)
+      setVal('role_es', profile.role_es)
+      setVal('role_en', profile.role_en)
+      setVal('university_es', profile.university_es)
+      setVal('university_en', profile.university_en)
+      const img1 = document.getElementById('avatarHome');    if (img1) img1.src = profile.avatar_url || ''
+      const img2 = document.getElementById('avatarSidebar'); if (img2) img2.src = profile.sidebar_avatar_url || ''
+    } catch (e) { console.error('site_profile select', e) }
 
-      // Agregar ítem
-      document.getElementById('addNav')?.addEventListener('click', async () => {
-        const { error } = await supabase.from('nav_items').insert({
-          position: 99, key: 'nuevo', label_es: 'Nuevo', label_en: 'New', href: '#/home', icon: 'star', visible: true
-        } as any);
-        if (error) return alert('Error creando: ' + error.message);
-        location.reload();
-      });
-    });
+    // Guardar perfil
+    document.getElementById('siteProfileForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const fd = new FormData(e.currentTarget)
+      const payload = Object.fromEntries(fd.entries())
+      const { data: cur } = await supabase.from('site_profile').select('id').limit(1).maybeSingle()
+      if (cur?.id) payload.id = cur.id
+      const { error } = await supabase.from('site_profile').upsert(payload).select().maybeSingle()
+      if (error) return alert('Error guardando: ' + error.message)
+      alert('Guardado ✅')
+      location.reload()
+    })
+
+    // Subir imágenes a storage bucket 'site'
+    async function uploadAndSave(file, column) {
+      if (!file) return
+      const ext = file.name.split('.').pop()
+      const path = \`site/\${Date.now()}-\${Math.random().toString(36).slice(2)}.\${ext}\`
+      const { error: upErr } = await supabase.storage.from('site').upload(path, file, { upsert: false })
+      if (upErr) return alert('Error subiendo: ' + upErr.message)
+      const { data: pub } = supabase.storage.from('site').getPublicUrl(path)
+      const { data: cur } = await supabase.from('site_profile').select('id').limit(1).maybeSingle()
+      const { error: up } = await supabase.from('site_profile').update({ [column]: pub.publicUrl }).eq('id', cur?.id)
+      if (up) return alert('Error guardando URL: ' + up.message)
+      alert('Imagen actualizada ✅')
+      location.reload()
+    }
+    document.getElementById('uploadAvatar')?.addEventListener('change', (e) => uploadAndSave(e.target.files?.[0], 'avatar_url'))
+    document.getElementById('uploadSidebar')?.addEventListener('change', (e) => uploadAndSave(e.target.files?.[0], 'sidebar_avatar_url'))
+
+    // Cargar menú editable
+    async function loadNav() {
+      const wrap = document.getElementById('navList')
+      if (!wrap) return
+      const { data: nav } = await supabase.from('nav_items').select('*').order('position', { ascending: true })
+      wrap.innerHTML = (nav || []).map(item => `
+        <div class="grid md:grid-cols-6 gap-2 items-center border-b pb-2">
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value="\${item.position ?? ''}" data-id="\${item.id}" data-k="position" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value="\${item.label_es ?? ''}" data-id="\${item.id}" data-k="label_es" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value="\${item.label_en ?? ''}" data-id="\${item.id}" data-k="label_en" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value="\${item.href ?? ''}"     data-id="\${item.id}" data-k="href" />
+          <input class="px-2 py-1 rounded border dark:bg-slate-900" value="\${item.icon ?? ''}"     data-id="\${item.id}" data-k="icon" />
+          <label class="text-sm inline-flex items-center gap-2">
+            <input type="checkbox" \${item.visible ? 'checked' : ''} data-id="\${item.id}" data-k="visible" />
+            Visible
+          </label>
+        </div>
+      `).join('')
+    }
+    await loadNav()
+
+    // Guardar menú
+    document.getElementById('saveNav')?.addEventListener('click', async () => {
+      const groups = {}
+      document.querySelectorAll('#navList [data-id]').forEach((el) => {
+        const id = el.getAttribute('data-id')
+        const k  = el.getAttribute('data-k')
+        let v = (el.type === 'checkbox') ? el.checked : el.value
+        if (!groups[id]) groups[id] = { id }
+        groups[id][k] = (k === 'position') ? Number(v) : v
+      })
+      const updates = Object.values(groups)
+      const { error } = await supabase.from('nav_items').upsert(updates, { onConflict: 'id' })
+      if (error) return alert('Error guardando menú: ' + error.message)
+      alert('Menú guardado ✅')
+      location.reload()
+    })
+
+    // Agregar ítem
+    document.getElementById('addNav')?.addEventListener('click', async () => {
+      const { error } = await supabase.from('nav_items').insert({
+        position: 99, key: 'nuevo', label_es: 'Nuevo', label_en: 'New', href: '#/home', icon: 'star', visible: true
+      })
+      if (error) return alert('Error creando: ' + error.message)
+      await loadNav()
+      alert('Ítem creado ✅')
+    })
   </script>
 </AdminLayout>
