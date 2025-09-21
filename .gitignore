@@ -1,32 +1,30 @@
-# Dependencias
+# Dependencias / caches
 node_modules/
 .pnpm-store/
+.astro/
+.cache/
 
-# Builds
+# Builds / plataformas
 dist/
 .netlify/
 .vercel/
-.astro/
 
-# Entornos / secretos locales
+# Entornos locales (no subas secretos)
 .env
 .env.*
-!.env.example        # conserva solo el ejemplo
+!.env.example
 
-# SO/editores
+# SO / editores
 .DS_Store
 Thumbs.db
 *.log
-*.local
 .vscode/
 .idea/
-
-# Cachés
-.cache/
-.svelte-kit/
-vite.config.timestamp-*
-pnpm-lock.yaml
 
 # Supabase local (si usas CLI)
 .supabase/
 docker/
+
+# NO ignores el lockfile ni src/public
+# pnpm-lock.yaml
+# package-lock.json
