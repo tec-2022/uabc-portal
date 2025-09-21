@@ -1,0 +1,32 @@
+# Dependencias
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+.netlify/
+.vercel/
+.astro/
+
+# Entornos / secretos locales
+.env
+.env.*
+!.env.example        # conserva solo el ejemplo
+
+# SO/editores
+.DS_Store
+Thumbs.db
+*.log
+*.local
+.vscode/
+.idea/
+
+# Cachés
+.cache/
+.svelte-kit/
+vite.config.timestamp-*
+pnpm-lock.yaml
+
+# Supabase local (si usas CLI)
+.supabase/
+docker/
